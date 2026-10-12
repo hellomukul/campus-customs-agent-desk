@@ -536,3 +536,57 @@ Explain how the agents performed on each ticket and why, how the actual agent de
   intact on each ticket, no console errors.
 
 ---
+
+## Problem 11 — Submit the project to GitHub
+
+**Prompts**
+
+1.
+```text
+Let's do step 11, which is submitting the project to GitHub. Check the whole project and make sure it matches the file structure in the assignment, given in the screenshot. naming etc should as per the given assignment.
+
+Push the project to a public GitHub repository so the graders can clone it. Do not push the real .env file, but make sure .env.example is included. Include both database files under data/ so the graders can run the app easily. Update README.md to explain how to copy the original database to the working database for a clean run, start the MCP server, start the FastAPI backend, start the React dashboard, and reset the database before running all three tickets. Save the public repository URL in output/github_url.txt. Finally, check that the repository is public, the URL is correct, all required files are committed and pushed, and the README instructions are clear enough for someone else to run the project.
+```
+(with a screenshot of the expected `hw5/` file layout)
+
+**Follow-up prompts**
+
+*(none)*
+
+**Notes**
+
+- **Restructured to match the assignment layout.** Five required files were in
+  the wrong place or missing: `requirements.txt`, `.env.example` and `.mcp.json`
+  now live at the `hw5/` root (they were under `backend/`, or at the workspace
+  root), plus a new root `README.md` and `output/github_url.txt`.
+- Consolidated three virtualenvs into **one** at `hw5/.venv` driven by the root
+  `requirements.txt`. This exposed a real bug: `backend/.venv` only had FastMCP's
+  *client* half (pulled in by `pydantic-ai-slim[mcp]`) and could not run the
+  server — `ModuleNotFoundError: packaging`. The single venv fixes it.
+- Made the project portable. `.mcp.json` now uses a **relative** script path,
+  and `agents.py` gained `find_mcp_config()`, which prefers `hw5/.mcp.json`,
+  walks upward as a fallback, resolves relative args against the config's own
+  folder, and launches the server with the running interpreter. A clone works
+  without editing absolute paths.
+- Fixed `check_wiring.py`, which had silently broken in Problem 7 — it asked the
+  filtered toolset for `.client`. It now checks the unfiltered server and
+  additionally asserts that the agents' view **hides** `record_payment`.
+- Repointed the workspace `.mcp.json` at the new venv so the Claude Code
+  connector keeps working.
+- **Secret safety**: grepped the real key across the whole project before
+  committing — it appears in no file; there is no `.env` inside `hw5/`; and
+  `.gitignore` covers `.env`, `.venv/` and `node_modules/`.
+- Pushed to **https://github.com/hellomukul/campus-customs-agent-desk**
+  (public), URL saved to `output/github_url.txt`.
+- **Verified from a fresh anonymous clone**, not just locally: all 25 required
+  files present, no `.env` / `.venv` / `node_modules`, both databases intact
+  (original at $3,400 all open, working at $160 all resolved), and the clone's
+  own `.mcp.json` resolved and served all **14 MCP tools** against its own
+  database copy.
+- README covers: requirements, setup, copying the original over the working
+  database for a clean run, starting the MCP server, the FastAPI backend and the
+  React dashboard, and a numbered walkthrough of resetting and running all three
+  tickets — including the detail that 101 and 102 each need two runs because a
+  human approves the payment in between.
+
+---

@@ -682,7 +682,9 @@ toolset, so no agent could have paid even by mistake.
 `output/audit_trail.json` grew from 400 entries to **714** — 314 appended by
 this step, across 5 runs and all five agents, with contiguous `seq`. Nothing
 was deleted; earlier entries from Problems 5, 7 and 8 are all still there, and
-`POST /reset` deliberately leaves the trail alone.
+`POST /reset` deliberately leaves the trail alone. (The count keeps rising
+afterwards: `check_wiring.py` appends a `wiring_check` marker every time it
+runs, which is the point — the trail only ever grows.)
 
 The trail also records both approval decisions with the balance before and
 after, and one `delegation_refused` — the depth limit firing on ticket 103 when
