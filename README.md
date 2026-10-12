@@ -141,14 +141,26 @@ Open <http://localhost:5173>. Point it elsewhere with
 4. When it finishes, a payment proposal appears under **Needs your signature**.
    Nothing has been paid — the balance is still $3,400.00. Click **Approve** and
    watch it count down to $2,560.00.
-5. **Dispatch the team** on #101 again. With the invoice paid, the Boss closes it
-   out and the ticket gets its `RESOLVED` stamp.
+5. **Dispatch the team** on #101 again. With the invoice paid, the Boss closes
+   it out and the ticket gets its `RESOLVED` stamp.
 6. Repeat for **#102 Rent due**: dispatch → approve the $2,400 rent → dispatch
    again → resolved. Balance $160.00.
 7. **#103 Bulk discount** needs one run and no payment — there is nothing to
    approve, because the team decides not to spend.
 
-Expect roughly 60–120 seconds per run. You can also drive it from the command
+Expect roughly 60–120 seconds per run.
+
+> **These are language models, so runs are not identical.** The decisions have
+> been stable across our runs — stock is never invented, the rent is always
+> verified against the lease before it is proposed, and nothing is ever paid
+> without a human — but the exact wording, the number of hand-offs and
+> occasionally the final status will vary. A ticket sometimes stops at
+> `in_progress` or `waiting_approval` and needs one more **Dispatch the team**
+> to close. That is the agents being cautious, not a failure; the note they
+> append to the ticket says what they are waiting on.
+>
+> The run recorded in `output/` is one such pass, captured in full in
+> `output/audit_trail.json` and `output/resolved_tickets.json`. You can also drive it from the command
 line without the dashboard:
 
 ```bash
