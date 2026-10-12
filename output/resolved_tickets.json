@@ -1,0 +1,463 @@
+{
+  "assignment": "Homework 5 \u2014 Problem 9: all three tickets resolved",
+  "generated_at": "2026-10-11T20:31:26-04:00",
+  "database": "data/campus_customs_new.db (working copy; data/campus_customs.db untouched)",
+  "desk_date": "2026-08-31",
+  "model": "gpt-6-luna via Portkey",
+  "cash": {
+    "starting_balance": 3400.0,
+    "ending_balance": 160.0,
+    "total_paid": 3240.0,
+    "reconciles": true
+  },
+  "human_approvals_total": 2,
+  "tickets": [
+    {
+      "ticket_id": 101,
+      "type": "customer_order",
+      "requester": "Tauhid Zaman",
+      "subject": "Bulldog tee",
+      "final_status": "resolved",
+      "outcome": "Order cannot be filled: CC-TEE-WHITE size S is at 0 on hand. The team paid the blocking rush-reprint invoice 501 ($840, 3 days overdue) after human approval, and closed the ticket with an honest customer position \u2014 sizes M/L/XL are available now, and 2026-09-05 is the earliest estimated reprint date (Bulldog Print Co, 5-day lead), explicitly not a promised delivery. No stock was invented and no delivery was promised.",
+      "runs": [
+        {
+          "run_id": "ticket-101-10300f44",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting"
+          ],
+          "delegations": 2,
+          "mcp_tools": {
+            "get_cash_balance": 1,
+            "list_invoices": 3,
+            "get_lease_due": 1,
+            "list_pending_approvals": 1,
+            "get_today": 3,
+            "list_vendors": 1,
+            "check_inventory": 2,
+            "list_tickets": 1,
+            "get_pricing": 1,
+            "propose_payment": 2,
+            "update_ticket": 1
+          },
+          "usage": {
+            "requests": 12,
+            "total_tokens": 69608
+          }
+        },
+        {
+          "run_id": "ticket-101-6e217eec",
+          "agents": [
+            "boss",
+            "inventory",
+            "accounting"
+          ],
+          "delegations": 2,
+          "mcp_tools": {
+            "list_invoices": 1,
+            "get_cash_balance": 1,
+            "get_lease_due": 2,
+            "list_pending_approvals": 1,
+            "get_today": 3,
+            "check_inventory": 1,
+            "list_vendors": 2,
+            "list_tickets": 1,
+            "get_pricing": 1,
+            "update_ticket": 1
+          },
+          "usage": {
+            "requests": 9,
+            "total_tokens": 48355
+          }
+        }
+      ],
+      "agents": [
+        {
+          "agent": "accounting",
+          "mcp_tools": [
+            "get_cash_balance",
+            "get_lease_due",
+            "get_today",
+            "list_invoices",
+            "list_pending_approvals"
+          ],
+          "contribution": "Verified invoice 501, checking, rent, and approval records for ticket 101. Invoice 501 is marked paid, not open; its recorded due date was three days before the desk date, and the approval record shows a prior proposal was approved and paid, so there is no pending proposal to duplicate. I made no proposal or payment."
+        },
+        {
+          "agent": "inventory",
+          "mcp_tools": [
+            "check_inventory",
+            "get_today",
+            "list_invoices",
+            "list_vendors"
+          ],
+          "contribution": "Verified ticket 101\u2019s requested CC-TEE-WHITE size S: it is out of stock and the one-unit request cannot be filled today. The matching apparel reprint vendor is Bulldog Print Co with a five-day lead time; counted from the desk date, the earliest restock date would be 2026-09-05, assuming an order is placed now. This is a lead-time estimate, not confirmation that a reprint is in motion."
+        },
+        {
+          "agent": "boss",
+          "mcp_tools": [
+            "check_inventory",
+            "get_lease_due",
+            "get_pricing",
+            "get_today",
+            "list_invoices",
+            "list_tickets",
+            "propose_payment",
+            "update_ticket"
+          ],
+          "contribution": "Ticket 101 requested one CC-TEE-WHITE in size S, but that size is out of stock. Invoice 501 is already paid, so I did not propose another payment; I updated the ticket to resolved with a truthful customer-facing next step and no promise of fulfillment."
+        }
+      ],
+      "delegations": [
+        {
+          "run": "ticket-101-10300f44",
+          "from": "boss",
+          "to": "inventory",
+          "depth": 1,
+          "ask": "For ticket 101, confirm whether CC-TEE-WHITE size S can be replenished and the vendor/lead time, so we can give the customer an honest restock date. Do not receive stock or make any changes."
+        },
+        {
+          "run": "ticket-101-10300f44",
+          "from": "boss",
+          "to": "accounting",
+          "depth": 1,
+          "ask": "For ticket 101, assess whether invoice 501 should be proposed for payment to unblock the size-S reprint: verify cash, all other open invoices, rent obligations, and pending payment approvals; report whether full payment "
+        },
+        {
+          "run": "ticket-101-6e217eec",
+          "from": "boss",
+          "to": "inventory",
+          "depth": 1,
+          "ask": "For ticket 101, verify current on-hand for CC-TEE-WHITE size S (need 1) and the matching reprint vendor's lead time; state the earliest restock date calculated from the desk date if applicable."
+        },
+        {
+          "run": "ticket-101-6e217eec",
+          "from": "boss",
+          "to": "accounting",
+          "depth": 1,
+          "ask": "For ticket 101, verify invoice 501's amount and status/overdue age, current checking balance, and whether a proposal for it is already pending. Assess whether it can be proposed while preserving rent due from the checkin"
+        }
+      ],
+      "mcp_tools_used": {
+        "get_cash_balance": 2,
+        "list_invoices": 4,
+        "get_lease_due": 3,
+        "list_pending_approvals": 2,
+        "get_today": 6,
+        "list_vendors": 3,
+        "check_inventory": 3,
+        "list_tickets": 2,
+        "get_pricing": 2,
+        "propose_payment": 2,
+        "update_ticket": 2
+      },
+      "human_approvals": [
+        {
+          "approval_id": 1,
+          "kind": "invoice",
+          "ref_id": 501,
+          "amount": 840.0,
+          "approved_by": "Mukul Gupta",
+          "status": "approved",
+          "money_moved": true,
+          "balance_after": 2560.0,
+          "requested_by_agent": "Boss",
+          "reason": "Ticket 101 needs the CC-TEE-WHITE size S rush reprint; invoice 501 is already open and 3 days overdue. Full payment alongside $2,400 rent due 2026-09-02 is covered by the verified $3,400 checking balance, but leaves only $160, so preserve rent funds and have a human approve this proposal before payment."
+        }
+      ],
+      "cash_effect": -840.0,
+      "database_changes": [
+        "payments row 1 ($840.00, invoice 501)",
+        "invoices.501 status open -> paid",
+        "cash_accounts.checking 3400.00 -> 2560.00",
+        "tickets.101 open -> resolved (notes appended)"
+      ]
+    },
+    {
+      "ticket_id": 102,
+      "type": "rent_notice",
+      "requester": "Elm City Properties",
+      "subject": "Rent due",
+      "final_status": "resolved",
+      "outcome": "Rent notice verified against lease 1 rather than taken at face value: $2,400.00 due 2026-09-02, two days after the desk date, not overdue. The team queued the payment, a human approved it, and the rent posted. The follow-up run reconciled the ticket note against the approval history and closed it.",
+      "runs": [
+        {
+          "run_id": "ticket-102-2b92f0eb",
+          "agents": [
+            "boss",
+            "facilities",
+            "accounting",
+            "accounting"
+          ],
+          "delegations": 3,
+          "mcp_tools": {
+            "get_cash_balance": 2,
+            "list_pending_approvals": 2,
+            "get_lease_due": 3,
+            "list_invoices": 3,
+            "get_today": 3,
+            "list_tickets": 3,
+            "update_ticket": 2,
+            "propose_payment": 1
+          },
+          "usage": {
+            "requests": 14,
+            "total_tokens": 74918
+          }
+        },
+        {
+          "run_id": "ticket-102-b89a6252",
+          "agents": [
+            "boss",
+            "facilities",
+            "accounting",
+            "accounting"
+          ],
+          "delegations": 3,
+          "mcp_tools": {
+            "get_cash_balance": 2,
+            "list_invoices": 2,
+            "list_pending_approvals": 3,
+            "list_tickets": 3,
+            "get_lease_due": 3,
+            "get_today": 3,
+            "update_ticket": 2
+          },
+          "usage": {
+            "requests": 12,
+            "total_tokens": 68841
+          }
+        }
+      ],
+      "agents": [
+        {
+          "agent": "accounting",
+          "mcp_tools": [
+            "get_cash_balance",
+            "get_lease_due",
+            "get_today",
+            "list_invoices",
+            "list_pending_approvals",
+            "list_tickets"
+          ],
+          "contribution": "Lease 1\u2019s exact rent is $2,400, due 2026-09-02. The payment records show that this rent amount has already been paid against lease 1, while current checking is $160; therefore the rent appears covered as an obligation, but the remaining funds would not cover a second rent payment. I made no payment and queued nothing."
+        },
+        {
+          "agent": "facilities",
+          "mcp_tools": [
+            "get_lease_due",
+            "get_today",
+            "list_tickets",
+            "update_ticket"
+          ],
+          "contribution": "Verified lease 1: monthly rent is $2,400, due 2026-09-02. The ticket notice says rent is due in 2 days, which matches the lease timing as of 2026-08-31; it is not overdue. I initiated no payment and updated ticket 102 to resolved; Accounting reports a $2,400 payment is already recorded against lease 1, though its match to the current rent cycle should be confirmed if uncertain."
+        },
+        {
+          "agent": "boss",
+          "mcp_tools": [
+            "get_today",
+            "list_pending_approvals",
+            "list_tickets",
+            "propose_payment",
+            "update_ticket"
+          ],
+          "contribution": "Verified ticket 102\u2019s rent notice against lease 1 and reconciled the stale ticket note with the approval history: the $2,400 rent payment was approved and recorded, so no new payment proposal is needed. The notice timing matches the lease, the ticket is resolved, and the appended note corrects the claim that no money had moved."
+        }
+      ],
+      "delegations": [
+        {
+          "run": "ticket-102-2b92f0eb",
+          "from": "boss",
+          "to": "facilities",
+          "depth": 1,
+          "ask": "For ticket 102, verify lease_id 1's rent amount and next due date against the lease table, and advise whether the rent notice is accurate. Do not initiate any payment."
+        },
+        {
+          "run": "ticket-102-2b92f0eb",
+          "from": "boss",
+          "to": "accounting",
+          "depth": 1,
+          "ask": "For ticket 102, check current checking balance, bills and queued payment proposals relevant to rent, and advise if the verified rent can be proposed without jeopardizing older invoices. Do not queue a payment; Boss will "
+        },
+        {
+          "run": "ticket-102-2b92f0eb",
+          "from": "facilities",
+          "to": "accounting",
+          "depth": 2,
+          "ask": "Check whether the rent obligation is covered/affordable. The verified lease amount is $2,400.00 due 2026-09-02; tell me whether the checking balance covers it and whether existing queued obligations affect coverage. Do n"
+        },
+        {
+          "run": "ticket-102-b89a6252",
+          "from": "boss",
+          "to": "facilities",
+          "depth": 1,
+          "ask": "For ticket 102, verify lease_id 1 rent amount and next due date against the lease, and whether the notice timing matches. Do not initiate any payment."
+        },
+        {
+          "run": "ticket-102-b89a6252",
+          "from": "boss",
+          "to": "accounting",
+          "depth": 1,
+          "ask": "For ticket 102, verify current checking balance, open/paid invoices and queued obligations relevant to whether the rent can be proposed. Confirm whether rent proposal #2 is already pending so we avoid duplicating it. Do "
+        },
+        {
+          "run": "ticket-102-b89a6252",
+          "from": "facilities",
+          "to": "accounting",
+          "depth": 2,
+          "ask": "For rent on lease_id 1, confirm whether the exact lease rent amount and next due date are covered by current funds/obligations. Do not queue or make any payment; just advise on coverage."
+        }
+      ],
+      "mcp_tools_used": {
+        "get_cash_balance": 4,
+        "list_pending_approvals": 5,
+        "get_lease_due": 6,
+        "list_invoices": 5,
+        "get_today": 6,
+        "list_tickets": 6,
+        "update_ticket": 4,
+        "propose_payment": 1
+      },
+      "human_approvals": [
+        {
+          "approval_id": 2,
+          "kind": "rent",
+          "ref_id": 1,
+          "amount": 2400.0,
+          "approved_by": "Mukul Gupta",
+          "status": "approved",
+          "money_moved": true,
+          "balance_after": 160.0,
+          "requested_by_agent": "Boss",
+          "reason": "Lease 1 rent verified due 2026-09-02; checking balance covers the obligation, and the only listed vendor invoice is already paid. Submit for human approval before the due date."
+        }
+      ],
+      "cash_effect": -2400.0,
+      "database_changes": [
+        "payments row 2 ($2,400.00, lease 1)",
+        "cash_accounts.checking 2560.00 -> 160.00",
+        "tickets.102 open -> resolved (notes appended)"
+      ]
+    },
+    {
+      "ticket_id": 103,
+      "type": "price_override",
+      "requester": "Yale AI Club",
+      "subject": "Bulk hoodie discount",
+      "final_status": "resolved",
+      "outcome": "Bulk request cannot be filled: 8 of 20 CC-HOOD-NAVY size M on hand, short 12. The Boss approved a customer-specific offer of $52.00 per unit for the full 20-unit order \u2014 above the $22.00 unit cost floor \u2014 recorded on the ticket as a conditional offer rather than written into the pricing table, since the stock to fill it is not confirmed. No money moved and no purchase was made.",
+      "runs": [
+        {
+          "run_id": "ticket-103-791150c3",
+          "agents": [
+            "boss",
+            "customer_service",
+            "inventory",
+            "boss",
+            "inventory"
+          ],
+          "delegations": 4,
+          "mcp_tools": {
+            "check_inventory": 5,
+            "get_today": 4,
+            "list_vendors": 2,
+            "list_invoices": 2,
+            "list_tickets": 3,
+            "get_pricing": 5,
+            "update_ticket": 2
+          },
+          "usage": {
+            "requests": 19,
+            "total_tokens": 106104
+          }
+        }
+      ],
+      "agents": [
+        {
+          "agent": "inventory",
+          "mcp_tools": [
+            "check_inventory",
+            "get_today",
+            "list_invoices",
+            "list_vendors"
+          ],
+          "contribution": "Checked CC-HOOD-NAVY size M stock, the apparel reprint supplier lead time, today\u2019s date, and invoices for an existing matching order. The supplier is a possible source, but the available records do not confirm actual availability or a placed order, so no restock or customer promise is confirmed."
+        },
+        {
+          "agent": "boss",
+          "mcp_tools": [
+            "check_inventory",
+            "get_pricing",
+            "get_today",
+            "list_tickets",
+            "update_ticket"
+          ],
+          "contribution": "Ticket 103 requested 20 CC-HOOD-NAVY hoodies in size M with a bulk discount. I approved a customer-specific $52-per-unit offer for the complete order based on verified margin, but only 8 units are in stock and no restock is confirmed; I recorded the decision and limitations on the ticket and resolved it with an actionable customer response."
+        },
+        {
+          "agent": "customer_service",
+          "mcp_tools": [
+            "check_inventory",
+            "get_pricing",
+            "get_today",
+            "list_tickets"
+          ],
+          "contribution": "Ticket 103 is for 20 CC-HOOD-NAVY hoodies in size M; only 8 are available now, so we cannot promise the full order today. The Boss approved a $52-per-hoodie offer only for the complete 20-unit order, and the ticket is now in progress; the potential restock timing is not a confirmed delivery promise."
+        }
+      ],
+      "delegations": [
+        {
+          "run": "ticket-103-791150c3",
+          "from": "boss",
+          "to": "customer_service",
+          "depth": 1,
+          "ask": "For ticket 103, advise what we can honestly tell Yale AI Club about 20 CC-HOOD-NAVY size M given only 8 are in stock, and how to handle their unspecified bulk-discount request without inventing a price. Give customer-rea"
+        },
+        {
+          "run": "ticket-103-791150c3",
+          "from": "customer_service",
+          "to": "inventory",
+          "depth": 2,
+          "ask": "For ticket 103, can the shortfall of 12 CC-HOOD-NAVY size M be replenished? If so, identify the correct supplier, lead time, and earliest date we can honestly quote, using desk date."
+        },
+        {
+          "run": "ticket-103-791150c3",
+          "from": "customer_service",
+          "to": "boss",
+          "depth": 2,
+          "ask": "Please decide whether to offer a bulk discount for ticket 103 and, if approved, specify the customer-facing unit price and any limits. No discounted price has been quoted; please make the decision against verified list p"
+        },
+        {
+          "run": "ticket-103-791150c3",
+          "from": "boss",
+          "to": "customer_service",
+          "refused": "depth"
+        },
+        {
+          "run": "ticket-103-791150c3",
+          "from": "boss",
+          "to": "inventory",
+          "depth": 1,
+          "ask": "For ticket 103, confirm whether 12 additional CC-HOOD-NAVY size M can be restocked and the earliest lead-time-based date, with no promise/order unless confirmed."
+        }
+      ],
+      "mcp_tools_used": {
+        "check_inventory": 5,
+        "get_today": 4,
+        "list_vendors": 2,
+        "list_invoices": 2,
+        "list_tickets": 3,
+        "get_pricing": 5,
+        "update_ticket": 2
+      },
+      "human_approvals": [],
+      "cash_effect": 0.0,
+      "database_changes": [
+        "tickets.103 open -> resolved (notes appended)",
+        "pricing unchanged",
+        "inventory unchanged"
+      ]
+    }
+  ]
+}

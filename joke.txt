@@ -1,0 +1,6 @@
+I asked my neural network to tell me a joke.
+
+It replied: "A joke."
+
+Technically correct, zero style points — I should have asked for a funny joke,
+but then it would have overfit to the training set and told me yours.

@@ -1,0 +1,17 @@
+# Everything the project needs: MCP server, agent team and API.
+#   python -m venv .venv && .venv/bin/pip install -r requirements.txt
+
+# MCP server (mcp_server/server.py)
+fastmcp>=4.0
+
+# Agent team (backend/agents.py) — PydanticAI with the OpenAI and MCP extras
+pydantic-ai-slim[openai,mcp]>=1.0.0
+openai>=1.40.0
+
+# API (backend/main.py)
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# Shared
+python-dotenv>=1.0.1
+httpx>=0.27.0

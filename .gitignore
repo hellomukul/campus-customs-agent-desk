@@ -1,0 +1,19 @@
+# Secrets — never commit the real key. .env.example is committed instead.
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+dist/
+
+# Runtime scratch
+output/audit_trail.tmp
+output/audit_trail.corrupt-*.json
+
+# macOS
+.DS_Store
