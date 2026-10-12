@@ -73,6 +73,7 @@ class AppState:
         self.agent_toolset: Any = None  # filtered view: no record_payment
         self.team: dict[str, Any] = {}
         self.runs: dict[str, dict] = {}
+        self.team_error: str | None = None
         self.lock = asyncio.Lock()
 
 
@@ -81,12 +82,23 @@ state = AppState()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Start the MCP connection once and keep it for the server's life."""
+    """Start the MCP connection once and keep it for the server's life.
+
+    The agent team needs an API key; the MCP tools do not. If the key is
+    missing we still serve — tickets, cash and approvals all work, and only
+    `POST /tickets/{id}/run` reports the problem. A grader who forgets the
+    key gets a readable message instead of a stack trace at boot.
+    """
     state.mcp = build_mcp_toolset(prepare_only=False)
     state.agent_toolset = state.mcp.filtered(
         lambda _ctx, tool: tool.name not in AGENT_BLOCKED_TOOLS
     )
-    state.team = build_team(state.agent_toolset)
+    try:
+        state.team = build_team(state.agent_toolset)
+    except RuntimeError as exc:
+        state.team = {}
+        state.team_error = str(exc)
+        print(f"[startup] agent team unavailable: {exc}")
     async with state.mcp:
         yield
 
@@ -165,6 +177,8 @@ async def root() -> dict:
         "service": "Campus Customs desk API",
         "status": "ok",
         "model": MODEL_NAME,
+        "agents_ready": bool(state.team),
+        "agents_error": state.team_error,
         "database": str(WORKING_DB.relative_to(HW5)),
         "data_access": "all shop data via the campus-customs MCP server",
         "routes": {
@@ -243,6 +257,13 @@ async def _execute_run(run_id: str, ticket_id: int) -> None:
 
 @app.post("/tickets/{ticket_id}/run", summary="Run the agent team on one ticket")
 async def run_ticket(ticket_id: int, body: RunRequest | None = None) -> dict:
+    if not state.team:
+        raise HTTPException(
+            503,
+            state.team_error
+            or "The agent team is not available. Copy .env.example to .env and add "
+               "your PORTKEY_API_KEY, then restart the server.",
+        )
     rows = await mcp_call("list_tickets", {"ticket_id": ticket_id})
     if not rows:
         raise HTTPException(404, f"No ticket {ticket_id}.")

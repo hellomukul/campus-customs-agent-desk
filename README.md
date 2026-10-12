@@ -53,10 +53,17 @@ copy the original over it first:**
 
 ```bash
 cp data/campus_customs.db data/campus_customs_new.db
+rm -f output/pending_approvals.json
 ```
 
 That restores the opening state: checking **$3,400.00**, all three tickets
 `open`, invoice 501 unpaid, `payments` empty.
+
+> Both lines matter. The second clears the human-approval queue. If you restore
+> the database but leave an old queue behind, the agents will read "invoice 501
+> was already approved" from the queue while the database still shows it unpaid,
+> conclude they are about to double-pay, and correctly refuse to act — which
+> looks like the app doing nothing.
 
 You can do the same thing at any time from the running app — the **Reset day**
 button on the dashboard, or `curl -X POST http://localhost:8000/reset`. Both

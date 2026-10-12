@@ -89,8 +89,8 @@ def require_api_key() -> str:
     key = os.getenv("PORTKEY_API_KEY", "").strip()
     if not key:
         raise RuntimeError(
-            "PORTKEY_API_KEY is not set. Add it to the project-root .env "
-            "(see backend/.env.example) and try again."
+            "PORTKEY_API_KEY is not set. From the project root: "
+            "`cp .env.example .env`, put your Portkey key in it, then restart."
         )
     return key
 

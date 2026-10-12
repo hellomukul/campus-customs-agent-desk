@@ -11,7 +11,9 @@ __pycache__/
 node_modules/
 dist/
 
-# Runtime scratch
+# Runtime scratch — the approval queue is live state, not a deliverable.
+# Shipping it would contradict a freshly reset database.
+output/pending_approvals.json
 output/audit_trail.tmp
 output/audit_trail.corrupt-*.json
 
